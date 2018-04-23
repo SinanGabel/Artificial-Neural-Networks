@@ -21,3 +21,5 @@ Open test.html in a standard web browser, open the developer console and type, f
 corresponding to: neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda)
 
 It is not currently converging, perhaps you can help find out why.
+
+[screen dump](img/screen20180423.png)
