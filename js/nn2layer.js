@@ -99,6 +99,10 @@ function normalxN(m, s, n) {
 
 // initialise("normal", [4,2,1]) or initialise("zero", [25,10,5,2])
 
+// Possibly multiply with a factor to reduce initialisation weights i.e. numeric.mul(factor, initialise(method, ar))
+
+// "In general, initializing all the weights to zero results in the network failing to break symmetry. This means that every neuron in each layer will learn the same thing, and you might as well be training a neural network with n[l]=1 for every layer, and the network is no more powerful than a linear classifier such as logistic regression.", source: Andrew Ng
+
 function initialise(method, ar) {
     
     let res = [],
@@ -107,23 +111,37 @@ function initialise(method, ar) {
     l = ar.length - 1;
     
     function fun(j, n2, n1) {
+        
+        let m = (method === "he") ? "normal" : method ;
+        
+        let out = {};
     
-        if (method === "normal") {
+        if (m === "normal") {
             
             // initialise parameters with random numbers from a standard normal distribution x 0.01
 
-            return { "W": _.range(0, n2).map((c) => numeric.mul(0.01, normalxN(0, 1, n1))),
+            out = { "W": _.range(0, n2).map((c) => numeric.mul(0.01, normalxN(0, 1, n1))),
                      "b": rangeC(0, n2),
                      "layer": j
             }
         
-        } else if (method === "zero") {
+        } else if (m === "zero") {
             
-            return { "W": _.range(0, n2).map((c) => rangeC(0, n1)),
+            out = { "W": _.range(0, n2).map((c) => rangeC(0, n1)),
                      "b": rangeC(0, n2),
                      "layer": j
             }
         }
+        
+        // xavier is 1/same
+        
+        if (method === "he") {
+            
+            out = numeric.mul( 2/Math.sqrt(n1), out);
+            
+        }
+        
+        return out;
     }
     
     for (i = 0; i < l; i++) {
@@ -382,6 +400,8 @@ function cost_cross_entropy(yhat, y, w_array, lambda) {
 
 // Call as: neuralnetwork2L(numeric.transpose(X2), Y2, 50, 10000, 0.05, 0.01)
 
+// "Note that regularization hurts training set performance! This is because it limits the ability of the network to overfit to the training set." source: Andrew Ng
+
 function neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda) {
 
     hidden_units = hidden_units || 25;  // hidden layer dimensionality i.e. the number of hidden units in the first hidden layer (the second hidden layer is the output layer)
@@ -401,7 +421,7 @@ function neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda) {
 
     // initialise
 
-    var init = initialise("normal", [n_x, n_h, n_y]);
+    var init = initialise("he", [n_x, n_h, n_y]);
 
     var W1 = init[0].W;  // (3 x 2)
     var b1 = init[0].b;  // (3)
