@@ -301,7 +301,9 @@ function normalizeRows(m) {
 }
 
 
-// softmax is a normalizing function used when needing to classify two or more classes.
+// softmax is a normalizing function - summing to one (1.0000), or ones [1,1,1, ...] - used when needing to classify two or more classes.
+
+// For C=2 i.e. two class, softmax reduces to linear regression (here note that if you have y_hat for one class the other is given by (1 - y_hat))
 
 // if m is array return array, else return matrix
 
@@ -416,7 +418,7 @@ function neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda) {
         n_h = hidden_units,  // hidden layer dimensionality
         n_y = 2, // output layer dimensionality
         
-        bits = [];
+        one_hot = [];
 
 
     // initialise
@@ -429,11 +431,11 @@ function neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda) {
     var W2 = init[1].W;  // (2 x 3)
     var b2 = init[1].b;  // (2)
     
-    // bits
+    // one_hot; reshape Y
     
-    Y.forEach((c) => { bits.push( (c === 0) ? [1,0] : [0,1] ) });  // (200 x 2)
+    Y.forEach((c) => { one_hot.push( (c === 0) ? [1,0] : [0,1] ) });  // (200 x 2)
     
-    bits = numeric.transpose(bits);  // (2 x 200)
+    one_hot = numeric.transpose(one_hot);  // (2 x 200)
 
     // forward propagation
     var A1, Z2, A2, dZ1, dZ2, dW1, dW2, db1, db2;
@@ -450,12 +452,12 @@ function neuralnetwork2L(X, Y, hidden_units, iterations, epsilon, lambda) {
         // calculate loss
         if ((i+1) % 1000 === 0) {
 
-            console.log("cost: ", cost_cross_entropy(A2, Y, [W1, W2], lambda));
+            console.log("cost: ", cost_cross_entropy(A2, Y, [W1, W2], lambda));  // note: reduces to: -c * Math.log(yhat[i][c]) because the case of c=0 yhat=0 and Math.log(1)=0 i.e. the second term of the cost cross entropy is zero.
         }
         
         // Back propagation
         
-        dZ2 = numeric.sub(A2, bits);  // (2 x 200)
+        dZ2 = numeric.sub(A2, one_hot);  // (2 x 200)
         
         
         dW2 = numeric.dot(dZ2, numeric.transpose(A1));  //  (2 x 200) x (200 x 3)  => (2 x 3)
