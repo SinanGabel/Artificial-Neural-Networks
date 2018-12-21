@@ -1,6 +1,6 @@
 
 
-The source for these notebooks and python files is:
+The source for these jupyter notebooks and python files is:
 
 https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd/tree/master/tensorflow-rnn-tutorial
 
