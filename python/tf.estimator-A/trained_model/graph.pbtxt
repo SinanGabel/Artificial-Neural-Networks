@@ -460,6 +460,7 @@ node {
         type: DT_DOUBLE
         type: DT_DOUBLE
         type: DT_DOUBLE
+        type: DT_DOUBLE
       }
     }
   }
@@ -491,6 +492,8 @@ node {
     key: "shapes"
     value {
       list {
+        shape {
+        }
         shape {
         }
         shape {
@@ -905,6 +908,35 @@ node {
   }
 }
 node {
+  name: "enqueue_input/Placeholder_13"
+  op: "Placeholder"
+  device: "/device:CPU:0"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        unknown_rank: true
+      }
+    }
+  }
+}
+node {
   name: "enqueue_input/random_shuffle_queue_EnqueueMany"
   op: "QueueEnqueueManyV2"
   input: "enqueue_input/random_shuffle_queue"
@@ -921,12 +953,14 @@ node {
   input: "enqueue_input/Placeholder_10"
   input: "enqueue_input/Placeholder_11"
   input: "enqueue_input/Placeholder_12"
+  input: "enqueue_input/Placeholder_13"
   device: "/device:CPU:0"
   attr {
     key: "Tcomponents"
     value {
       list {
         type: DT_INT64
+        type: DT_DOUBLE
         type: DT_DOUBLE
         type: DT_DOUBLE
         type: DT_DOUBLE
@@ -1339,6 +1373,11 @@ node {
             size: 128
           }
         }
+        shape {
+          dim {
+            size: 128
+          }
+        }
       }
     }
   }
@@ -1359,6 +1398,7 @@ node {
         type: DT_DOUBLE
         type: DT_DOUBLE
         type: DT_DOUBLE
+        type: DT_DOUBLE
       }
     }
   }
@@ -1366,6 +1406,409 @@ node {
     key: "timeout_ms"
     value {
       i: -1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ExpandDims"
+  op: "ExpandDims"
+  input: "random_shuffle_queue_DequeueMany:11"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ToFloat"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ExpandDims"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "Truncate"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Shape"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\200\000\000\000\001\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape/shape/1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape/shape"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/strided_slice"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape/shape/1"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/ToFloat"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
     }
   }
 }
@@ -1402,7 +1845,7 @@ node {
 node {
   name: "dnn/input_from_feature_columns/input_layer/avg_persons_per_room/ExpandDims"
   op: "ExpandDims"
-  input: "random_shuffle_queue_DequeueMany:11"
+  input: "random_shuffle_queue_DequeueMany:12"
   input: "dnn/input_from_feature_columns/input_layer/avg_persons_per_room/ExpandDims/dim"
   attr {
     key: "T"
@@ -2709,15 +3152,15 @@ node {
     value {
       list {
         f: 32.0
-        f: 33.0
-        f: 34.0
-        f: 35.0
-        f: 36.0
-        f: 37.0
-        f: 38.0
-        f: 39.0
-        f: 40.0
-        f: 41.0
+        f: 33.11111068725586
+        f: 34.22222137451172
+        f: 35.33333206176758
+        f: 36.44444274902344
+        f: 37.55555725097656
+        f: 38.66666793823242
+        f: 39.77777862548828
+        f: 40.88888931274414
+        f: 42.0
       }
     }
   }
@@ -3257,6 +3700,684 @@ node {
   }
 }
 node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ExpandDims/dim"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: -1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ExpandDims"
+  op: "ExpandDims"
+  input: "random_shuffle_queue_DequeueMany:1"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ExpandDims/dim"
+  attr {
+    key: "T"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "Tdim"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ToFloat"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ExpandDims"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "Truncate"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Bucketize"
+  op: "Bucketize"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ToFloat"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "boundaries"
+    value {
+      list {
+        f: -124.30000305175781
+        f: -123.18888854980469
+        f: -122.07777404785156
+        f: -120.96666717529297
+        f: -119.85555267333984
+        f: -118.74444580078125
+        f: -117.63333129882812
+        f: -116.52222442626953
+        f: -115.4111099243164
+        f: -114.30000305175781
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ToInt64"
+  op: "Cast"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Bucketize"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Truncate"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/Const"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/Const_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/depth"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 11
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/on_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/off_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot"
+  op: "OneHot"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/ToInt64"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/depth"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/on_value"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot/off_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "TI"
+    value {
+      type: DT_INT64
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 1
+          }
+          dim {
+            size: 11
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: -1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Shape"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 3
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 3
+          }
+        }
+        tensor_content: "\200\000\000\000\001\000\000\000\013\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice"
+  op: "StridedSlice"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Shape"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack_1"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape/shape/1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 11
+      }
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape/shape"
+  op: "Pack"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/strided_slice"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape/shape/1"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape"
+  op: "Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/one_hot"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 128
+          }
+          dim {
+            size: 11
+          }
+        }
+      }
+    }
+  }
+}
+node {
   name: "dnn/input_from_feature_columns/input_layer/median_income/ExpandDims/dim"
   op: "Const"
   attr {
@@ -3692,16 +4813,18 @@ node {
 node {
   name: "dnn/input_from_feature_columns/input_layer/concat"
   op: "ConcatV2"
+  input: "dnn/input_from_feature_columns/input_layer/avg_bedrooms_per_house/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/avg_persons_per_room/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/avg_rooms_per_house/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/housing_median_age/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/latitude_bucketized/Reshape"
+  input: "dnn/input_from_feature_columns/input_layer/longitude_bucketized/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/median_income/Reshape"
   input: "dnn/input_from_feature_columns/input_layer/concat/axis"
   attr {
     key: "N"
     value {
-      i: 5
+      i: 7
     }
   }
   attr {
@@ -3725,7 +4848,7 @@ node {
             size: 128
           }
           dim {
-            size: 15
+            size: 27
           }
         }
       }
@@ -3771,7 +4894,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\017\000\000\000\200\000\000\000"
+        tensor_content: "\033\000\000\000\200\000\000\000"
       }
     }
   }
@@ -3809,7 +4932,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.2048366218805313
+        float_val: -0.19674775004386902
       }
     }
   }
@@ -3847,7 +4970,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.2048366218805313
+        float_val: 0.19674775004386902
       }
     }
   }
@@ -3876,7 +4999,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -3958,7 +5081,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -3993,7 +5116,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -4040,7 +5163,7 @@ node {
     value {
       shape {
         dim {
-          size: 15
+          size: 27
         }
         dim {
           size: 128
@@ -4107,7 +5230,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -4291,7 +5414,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -4323,7 +5446,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -4502,7 +5625,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.75
+        float_val: 0.8500000238418579
       }
     }
   }
@@ -5865,7 +6988,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.75
+        float_val: 0.8500000238418579
       }
     }
   }
@@ -7228,7 +8351,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.75
+        float_val: 0.8500000238418579
       }
     }
   }
@@ -8913,7 +10036,7 @@ node {
 node {
   name: "dnn/head/labels/ExpandDims"
   op: "ExpandDims"
-  input: "random_shuffle_queue_DequeueMany:12"
+  input: "random_shuffle_queue_DequeueMany:13"
   input: "dnn/head/labels/ExpandDims/dim"
   attr {
     key: "T"
@@ -14263,7 +15386,7 @@ node {
             size: 128
           }
           dim {
-            size: 15
+            size: 27
           }
         }
       }
@@ -14299,7 +15422,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14355,7 +15478,7 @@ node {
             size: 128
           }
           dim {
-            size: 15
+            size: 27
           }
         }
       }
@@ -14387,7 +15510,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14407,7 +15530,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14439,7 +15562,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14466,7 +15589,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14488,7 +15611,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -14536,7 +15659,7 @@ node {
     value {
       shape {
         dim {
-          size: 15
+          size: 27
         }
         dim {
           size: 128
@@ -14611,7 +15734,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -16205,7 +17328,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -16237,7 +17360,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20474,7 +21597,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20506,7 +21629,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20533,7 +21656,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20553,7 +21676,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20585,7 +21708,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -20612,7 +21735,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -21541,7 +22664,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "_temp_640065d949c94c969c852bf5f26e9ae3/part"
+        string_val: "_temp_06a4275126ec44c9a5a26ba2d248c0d0/part"
       }
     }
   }
@@ -21975,7 +23098,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -22008,7 +23131,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -22035,7 +23158,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -22056,7 +23179,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -22089,7 +23212,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -22116,7 +23239,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -23130,8 +24253,8 @@ node {
         }
         string_val: "128 0,128"
         string_val: "128 0,128"
-        string_val: "15 128 0,15:0,128"
-        string_val: "15 128 0,15:0,128"
+        string_val: "27 128 0,27:0,128"
+        string_val: "27 128 0,27:0,128"
         string_val: "64 0,64"
         string_val: "64 0,64"
         string_val: "128 64 0,128:0,64"
@@ -23533,8 +24656,8 @@ node {
         }
         string_val: "128 0,128"
         string_val: "128 0,128"
-        string_val: "15 128 0,15:0,128"
-        string_val: "15 128 0,15:0,128"
+        string_val: "27 128 0,27:0,128"
+        string_val: "27 128 0,27:0,128"
         string_val: "64 0,64"
         string_val: "64 0,64"
         string_val: "128 64 0,128:0,64"
@@ -23574,7 +24697,7 @@ node {
         }
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -23582,7 +24705,7 @@ node {
         }
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -23784,7 +24907,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
@@ -23824,7 +24947,7 @@ node {
       list {
         shape {
           dim {
-            size: 15
+            size: 27
           }
           dim {
             size: 128
